@@ -1,0 +1,95 @@
+{% extends "blog/base.html"%}
+{% block content%}
+
+    <div class="ui basic modal" style= "top:100px; height=400px">
+        <div class="ui icon header">
+            <i class="user plus icon"></i>
+            Are you sure you want to follow {{object}} ?
+        </div>
+        <div class="content">
+            <p> Click Yes to see posts by {{ object}} </p>
+        </div>
+        <div class="actions">
+             <form action= "{% url 'users:follow-unfollow-view' %}" method= "POST">
+                {% csrf_token %} 
+                <input type="hidden" name= "profile_pk" value={{ object.pk }}>
+                <button type="submit" class="ui green ok massive button">
+                    <i class="checkmark icon"></i>
+                    Yes
+                </button>
+             </form>
+         </div>
+    </div>
+
+       <h3> {{ profile }} </h3>
+
+        <div class="content-section">
+            <div class="media">
+                <img class="rounded-circle account-img" src="{{profile.image.url}}">
+                <div class="media-body">
+                
+                <h5>{{profile.user.email}}</h5>
+                {{follow}}
+                <br>
+                <form action="{% url 'users:follow-unfollow-view' %}" method= POST>
+                    {% csrf_token %}
+                        
+                        <input type="hidden" name= "profile_pk" value={{ object.pk }}>
+                        {% if follow %}
+                            
+                                <button type="submit" class= "ui negative button"> Unfollow </button>
+                        
+                        {% else %}
+                            <button id="follow-btn" class= "ui positive button"> Follow </button>
+
+                        {% endif %}
+                </form>
+             </div>
+
+             <div class="twelve wide column">
+                {% for post in object.profiles_posts %}
+                    <div class="ui segment">
+                        {{post.body}}
+                {%endfor %}
+
+                    </div>
+        </div>
+
+    
+    
+
+    {% if is_paginated %}
+
+   
+         {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4" href="?page=1"> First </a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}"> < </a>
+         {% endif %}
+
+         {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+               <a class="btn btn-info mb-4" href="?page={{ num }}"> {{ num }} </a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}   
+               <a class="btn btn-outline mb-4" href="?page={{ num }}"> {{ num }} </a>
+            {% endif %}
+
+         {% endfor %}
+
+         {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}"> > </a>
+            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}"> Last </a>
+         {% endif %}
+
+    {% endif %} 
+
+{%endblock content%}
+
+{% block scripts%}
+    <script>
+    $( document).ready(function() {
+    $('#follow-btn').click(function(){
+            $('.ui.basic.modal')
+            .modal('show') })
+    ;
+    </script>
+{% endblock scripts%}

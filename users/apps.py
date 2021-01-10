@@ -6,4 +6,4 @@ class UsersConfig(AppConfig):
 
     def ready(self):
         import users.signals
-#hello world
+#hello world 2

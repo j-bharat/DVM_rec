@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from blog.models import Post, BlogComment #Follow
+from users.models import Profile
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -16,9 +17,10 @@ def home(request):
     return render( request, 'blog/home.html', context)
 
 def feed(request):
-    profile= Profile.objects.get(user=request.user)
-    users= [user for user in user.following.all]
-    return render( request, 'blog/feed.html', {'title': 'Feed'})
+    context={
+    'profile' : Profile.objects.get(user=request.user)}
+    #users= [user for user in user.following.all]
+    return render( request, 'blog/feed.html', context)
 
 class PostListView(ListView):
     model= Post

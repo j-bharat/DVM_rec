@@ -10,6 +10,9 @@
                   </fieldset>
                   <div class="form-group">
                      <button class="btn btn-outline-info" type="submit"> Log In </button>
+                     <button class ="btn btn-outline-info">
+                        <a class ="ml-1" href="https://accounts.google.com/o/oauth2/auth/oauthchooseaccount?client_id=838591548228-v6074bk3nh8j1sl1fnlfm08557pdcpi3.apps.googleusercontent.com&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Faccounts%2Fgoogle%2Flogin%2Fcallback%2F&scope=profile&response_type=code&state=881y8pWAScHi&flowName=GeneralOAuthFlow"> Sign in with Google </a> 
+                     </button>
                      <small class='text-muted ml-2'>
                          <a href="{% url 'password_reset' %}"> Forgot Password? </a>
                      </small>
@@ -20,9 +23,7 @@
                  <small class="text-muted"> 
                  Don't Have An Account? <a class ="ml-2" href="{% url 'register'%}"> Sign Up Today! </a>
                  </small>  
-                 <small class="text-muted"> 
-                  {% comment %} <a class ="ml-2" href="{% url 'google'%}"> Sign in with Google </a> {% endcomment %}
-                 </small>
+                 
              </div>      
        </div>
 

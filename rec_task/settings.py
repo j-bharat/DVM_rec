@@ -107,7 +107,7 @@ DATABASES = {
     'default': {
          
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'rec_task',                      
+        'NAME': 'root',
         'USER': 'postgres',
         'PASSWORD': 'starstar1',
         'HOST': 'localhost',

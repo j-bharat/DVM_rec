@@ -18,7 +18,7 @@ def home(request):
 
 def feed(request):
     context={
-    'profile' : Profile.objects.get(user=request.user)}
+    'profile' : Profile.objects.all()}
     #users= [user for user in user.following.all]
     return render( request, 'blog/feed.html', context)
 

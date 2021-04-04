@@ -1,3 +1,4 @@
 {
-    "editor.mouseWheelZoom": true
+    "editor.mouseWheelZoom": true,
+    "python.pythonPath": "/home/espektr/Documents/Clubs/DVM&ACM/Rec/env/bin/python3.8"
 }

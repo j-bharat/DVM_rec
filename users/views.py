@@ -22,6 +22,21 @@ def register(request):
     return render(request, 'users/register.html', {'form': form} )
     
 @login_required
+def follow_unfollow_profile(request):
+    if request.method =='POST':
+        my_profile = Profile.objects.get(user=request.user)
+        pk = request.POST.get('profile_pk')
+        obj = Profile.objects.get(pk=pk)
+
+        if obj in my_profile.following.all():
+            my_profile.following.remove(obj)
+        else:
+             my_profile.following.add(obj)
+        return redirect(request.META.get('HTTP_REFERER'))
+    return redirect ('profiles:profile-list-view')
+
+
+@login_required
 def profile(request):
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
@@ -68,7 +83,7 @@ class ProfileDetailView(DetailView):
         pk= self.kwargs.get('pk')
         view_profile= Profile.objects.get(pk=pk)
         my_profile= Profile.objects.get(user= self.request.user)
-        if view_profile.user in my_profile.following.all():
+        if view_profile in my_profile.following.all():
             follow= True 
         else:
             follow= False

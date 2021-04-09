@@ -8,7 +8,7 @@
             <div class="article-metadata">
              <br>
                {{ profile.user }}  
-               <a href={% url 'users:profile-detail-view' profile.pk %}> 
+               <a href="{% url 'users:profile-detail-view' profile.pk %}""> 
                   <button class='ui primary button'> See Profile </button> 
                </a>
              <br>

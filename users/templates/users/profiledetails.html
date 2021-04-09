@@ -1,16 +1,20 @@
 {% extends "blog/base.html"%}
-{% block content %}
+
+{% block title %}
+ Profile Detail
+{% endblock title %}
+    {% block content %}
 
     <div class="ui basic modal" style= "top:100px; height:400px">
         <div class="ui icon header">
             <i class="user plus icon"></i>
-            Are you sure you want to follow {{object}} ?
+            Are you sure you want to follow {{ object }} ?
         </div>
         <div class="content">
-            <p> Click Yes to see posts by {{ object}} </p>
+            <p> Click Yes to Follow {{ object}} </p>
         </div>
         <div class="actions">
-             <form action= "{% url 'users:follow-unfollow-view' %}" method= "POST">
+             <form action="{% url 'users:follow-unfollow-view' %}" method= "POST">
                 {% csrf_token %} 
                 <input type="hidden" name= "profile_pk" value={{ object.pk }}>
                 <button type="submit" class="ui green ok massive button">
@@ -20,39 +24,42 @@
              </form>
          </div>
     </div>
+    
 
-       <h3> {{ profile }} </h3>
+       <h3> {{ profile.user.username }}'s Profile </h3>
 
         <div class="content-section">
             <div class="media">
                 <img class="rounded-circle account-img" src="{{profile.image.url}}">
                 <div class="media-body">
+
+            <div class="content">
+                    <p>  <h6>{{ profile.user.username}}</h6> </p>
+            </div> 
+            <div class="content">
+                 <p>  <h7>{{ profile.user.email}}</h7> </p>
+            </div>   
                 
-                <h5>{{profile.user.email}}</h5>
-                {{follow}}
+                                                                                                      <!-- {{follow}} -->
                 <br>
                 <form action="{% url 'users:follow-unfollow-view' %}" method= POST>
                     {% csrf_token %}
                         
-                        <input type="hidden" name= "profile_pk" value={{ object.pk }}>
+                        <input type="hidden" name="profile_pk" value= {{ object.pk }}>
                         {% if follow %}
                             
                                 <button type="submit" class= "ui negative button"> Unfollow </button>
                         
                         {% else %}
-                            <button id="follow-btn" class= "ui positive button"> Follow </button>
+                          
+                                <button id="follow-btn" class= "ui positive button"> Follow </button>
 
                         {% endif %}
                 </form>
              </div>
 
-             <div class="twelve wide column">
-                {% for post in object.profiles_posts %}
-                    <div class="ui segment">
-                        {{post.body}}
-                {%endfor %}
-
-                    </div>
+            
+            </div>
         </div>
 
     
@@ -84,13 +91,13 @@
 
 {%endblock content%}
 
-{% block scripts %}
-    <script>
-    $( document).ready(function() {
+//{% block scripts %}
+// <script>
+   $(document).ready(function() {
     $('#follow-btn').click(function(){
-            $('.ui.basic.modal')
-            .modal('show') })
+        $('.ui.basic.modal')
+        .modal('show') })
     ;
-    }
-    </script>
-{% endblock scripts %}
+    })
+</script>
+// {% endblock scripts %}

@@ -2,8 +2,8 @@
   
 {% extends "blog/base.html" %}
 {% block content %}
-{% for post in posts %}
-	{% if post.author.profile in profiles %}
+<!-- {% for post in posts %}
+	{% if post.author.profile in profiles %} -->
 		<article class="media content-section">
 			<img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
 		  <div class="media-body">
@@ -17,8 +17,8 @@
 		    <p class="article-content">{{ post.content }}</p>
 		  </div>
 		</article> 
-	{% endif %}
-{% endfor %}
+	<!-- {% endif %}
+{% endfor %} -->
 {% if is_paginated %}
 
 		{% if page_obj.has_previous %}

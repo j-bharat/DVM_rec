@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .forms import NewCommentForm
+from users.views import *
 
 
 
@@ -19,19 +20,31 @@ def home(request):
     return render( request, 'blog/home.html', context)
 
 def feed(request):
-    #post.author.profile
-    posts = Post.objects.all()
+    # post.author.profile.id
+    # posts = Post.objects.filter(id=Post.author.profile.id)
+    # posts= Post.objects.all()
     
-    user = request.user
-    following = user.profile.follow.all()
-    # feed = []
-   
-    # for profile in following:
-    #     for post in profile.user.Post.objects.all():
-    #         feed.append(post)
+    profile = Profile.objects.get(request.user) #Get following
+    #following = user.profile.following.all()
 
-    context = {'posts' : posts, 'prifles': following}
-    return render( request, 'blog/feed.html', context)
+    users = profile.following.all() #we want to send all posts from each profile.
+    feed =[]
+    qs = None
+    for u in users:
+        p = Profile.objects.get(user=u)
+        p_posts = p.post_set.all()
+        feed.append(p_posts)
+   
+    # for profiles in following:
+    #     for post in posts:
+    #      if post.author.profile.user == profiles.user:
+    #             feed.append(post)
+
+    context = {'posts' : feed } #'profles': following}
+    return render(request,'blog/feed.html', context)
+
+def profiles(request):
+    return render( request, 'users/allprofiles.html', context)
 
 class PostListView(ListView):
     model= Post
@@ -141,7 +154,6 @@ def export_profiles(request):
     workbook.save(response)
     return response
     
-
 
 
 

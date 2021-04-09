@@ -31,7 +31,7 @@ SECRET_KEY = 'v-ygm%q*s1#)q&@cj4o#&7!j)u4)q@eor2_2idf!^kec%7l%)5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '139.59.22.240']
 
 
 # Application definition
@@ -107,8 +107,8 @@ DATABASES = {
     'default': {
          
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'root',
-        'USER': 'postgres',
+        'NAME': 'rec_task',
+        'USER': 'rec_task',
         'PASSWORD': 'starstar1',
         'HOST': 'localhost',
         'PORT': '5432',

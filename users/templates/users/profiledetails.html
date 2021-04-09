@@ -1,7 +1,7 @@
 {% extends "blog/base.html"%}
-{% block content%}
+{% block content %}
 
-    <div class="ui basic modal" style= "top:100px; height=400px">
+    <div class="ui basic modal" style= "top:100px; height:400px">
         <div class="ui icon header">
             <i class="user plus icon"></i>
             Are you sure you want to follow {{object}} ?
@@ -84,12 +84,13 @@
 
 {%endblock content%}
 
-{% block scripts%}
+{% block scripts %}
     <script>
     $( document).ready(function() {
     $('#follow-btn').click(function(){
             $('.ui.basic.modal')
             .modal('show') })
     ;
+    }
     </script>
-{% endblock scripts%}
+{% endblock scripts %}

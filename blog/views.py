@@ -1,6 +1,8 @@
+import openpyxl
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from blog.models import Post, BlogComment #Follow
+from blog.models import Post, BlogComment
 from users.models import Profile
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -17,9 +19,18 @@ def home(request):
     return render( request, 'blog/home.html', context)
 
 def feed(request):
-    context={
-    'profile' : Profile.objects.all()}
-    #users= [user for user in user.following.all]
+    #post.author.profile
+    posts = Post.objects.all()
+    
+    user = request.user
+    following = user.profile.follow.all()
+    # feed = []
+   
+    # for profile in following:
+    #     for post in profile.user.Post.objects.all():
+    #         feed.append(post)
+
+    context = {'posts' : posts, 'prifles': following}
     return render( request, 'blog/feed.html', context)
 
 class PostListView(ListView):
@@ -100,6 +111,36 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         return False
+
+def export_profiles(request):
+    
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="profile_data.xlsx"'
+
+    workbook = openpyxl.Workbook()
+    worksheet = workbook.active
+    worksheet.title = 'Profile Data'
+
+    profiles = Profile.objects.all()
+    rows = [
+        ['Username', 'E-mail', 'Following']
+    ]
+    for profile in profiles:
+        follow_profiles = profile.follow.all()
+        follower = []
+        for profile in follow_profiles:
+            follower.append(profile.user.username)
+        follower_str = ','.join(follower)
+
+        row = [profile.user.username, profile.user.email, follower_str]
+        row_data.append(row)
+
+    for row in rows:
+        worksheet.append(row)
+
+    workbook.save(response)
+    return response
+    
 
 
 

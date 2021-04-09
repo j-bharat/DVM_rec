@@ -1,7 +1,7 @@
 
 from django.urls import path
 from . import views
-from blog.views import PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView
+from blog.views import export_profiles, PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, UserPostListView
 
 
 urlpatterns = [
@@ -13,6 +13,7 @@ urlpatterns = [
     path('post/<int:pk>/delete', PostDeleteView.as_view(), name='post-delete'),
     path('post/new/' ,  PostCreateView.as_view(), name='post-create'),
     path('feed/', views.feed, name='blog-feed'),
+    path('export/', views.export_profiles, name='export'),
     
 ]
 

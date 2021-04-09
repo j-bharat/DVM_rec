@@ -4,35 +4,10 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from .models import Profile #Follow, 
+from .models import Profile
 
 
-#For the list of Followers and Following
-def follower_unfollow_profile(request):
-    if request.method=='POST':
-        my_profile= Profile.objects.get(user=request.user)
-        pk= request.POST.get('profile_pk')  
-        obj= Profile.objects.get(pk=pk) 
 
-        if obj.user in my_profile.following.all():
-            my_profile.following.remove(obj.user)
-        else:
-            my_profile.following.add(obj.user)
-
-        return redirect(request.META.get('HTTP_REFERER')) #return to previous page
-    else:
-        return redirect('users: profile-list-view' )
-    context ={
-        'followers' : Follow.follower.all()
-    }
-
-    return render( request, 'users/followers.html', context)
-
-def following(request):
-    context ={
-        'following' : Follow.following.all()
-    }
-    return render( request, 'users/following.html', context)
 
 def register(request):
     if request.method == 'POST':

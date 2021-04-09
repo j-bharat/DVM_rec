@@ -1,8 +1,17 @@
 from django.contrib import admin
-from .models import Profile #Follow 
+from .models import Profile 
+
 
 
 admin.site.register(Profile)
-# admin.site.register(Follow)
 
-# Register your models here.
+class AccountAdmin(admin.ModelAdmin):
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            url(
+                path('export/', views.export_profiles_to_xlsx, name='export'),
+            ),
+        ]
+
+
